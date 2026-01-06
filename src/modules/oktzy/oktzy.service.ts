@@ -12,3 +12,20 @@ export const loginUser = async (email, password) => {
   return { user, token };
 };
 */
+
+import bcrypt from 'bcrypt';
+import { findUserByEmail, createUser } from './oktzy.model.js';
+
+export const registerUser = async (email: string, username: string, password: string) => {
+  try {
+    const existingUser = await findUserByEmail(email); // Call model
+    if (existingUser) {
+      throw new Error('Email already in use');
+    }
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const newUser = await createUser(email, username, hashedPassword); // Call model
+    return newUser;
+  } catch (error) {
+    throw error;
+  }
+}

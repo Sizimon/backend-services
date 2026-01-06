@@ -11,3 +11,16 @@ export const login = async (req, res, next) => {
   }
 };
 */
+
+import { Request, Response, NextFunction } from 'express';
+import { registerUser } from './oktzy.service.js';
+
+export const register = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { email, username, password } = req.body;
+    const result = await registerUser(email, username, password); // Call service
+    res.json({ success: true, data: result }); // Send response
+  } catch (error) {
+    next(error);
+  }
+}
