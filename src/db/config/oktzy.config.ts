@@ -6,7 +6,7 @@ type OktzyDbConfig = {
 };
 
 export const oktzyDbConfig: OktzyDbConfig = {
-  connectionString: process.env.OKTZY_DATABASE_URL || 'postgresql://user:password@localhost:5432/database',
+  connectionString: process.env.DATABASE_URL || '',
   schema: 'app_oktzy',
   ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
   poolSize: 20,
