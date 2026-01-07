@@ -15,5 +15,9 @@ export const findUserByEmail = async (email: string) => {
 };
 
 export const createUser = async (email: string, username: string, hashedPassword: string) => {
-
-}
+  const result = await db.query(
+    'INSERT INTO users (email, username, password) VALUES ($1, $2, $3) RETURNING *',
+    [email, username, hashedPassword]
+  );
+  return result.rows[0];
+};
