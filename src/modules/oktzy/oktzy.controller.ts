@@ -14,14 +14,27 @@ export const login = async (req, res, next) => {
 
 import { Request, Response, NextFunction } from 'express';
 import { loginUser, registerUser, getUserClips } from './oktzy.service.js';
+import { setSessionCookie, clearSessionCookie } from '../../middleware/oktzy/oktzyAuth.js';
 
 // Auth Controllers
 
 export const login = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { email, password } = req.body;
-    const result = await loginUser(email, password); // Call service
-    res.json({ success: true, data: result }); // Send response
+    const user = await loginUser(email, password); // Call service
+    setSessionCookie(res, {
+      id: user.id,
+      email: user.email,
+      username: user.username,
+    });
+    res.json({
+      success: true,
+      data: {
+        id: user.id,
+        email: user.email,
+        username: user.username,
+      }
+    });
   } catch (error) {
     next(error);
   }
@@ -30,16 +43,28 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
 export const register = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { email, username, password } = req.body;
-    const result = await registerUser(email, username, password); // Call service
-    res.json({ success: true, data: result }); // Send response
+    const user = await registerUser(email, username, password); // Call service
+    setSessionCookie(res, {
+      id: user.id,
+      email: user.email,
+      username: user.username,
+    });
+    res.json({
+      success: true,
+      data: {
+        id: user.id,
+        email: user.email,
+        username: user.username,
+      }
+    }); // Send response
   } catch (error) {
     next(error);
   }
 }
 
-export const logout = async (res: Response, next: NextFunction) => {
+export const logout = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    res.clearCookie('oktzy_session');
+    clearSessionCookie(res);
     res.json({ success: true, message: 'Logged out successfully' });
   } catch (error) {
     next(error);
