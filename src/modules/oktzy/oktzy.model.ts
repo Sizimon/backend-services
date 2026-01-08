@@ -9,6 +9,8 @@ export const findUserByEmail = async (email) => {
 
 import db from '../../db/oktzy/db.js';
 
+
+// Auth models
 export const findUserByEmail = async (email: string) => {
   const result = await db.query('SELECT * FROM users WHERE email = $1', [email]);
   return result.rows[0];
@@ -20,4 +22,11 @@ export const createUser = async (email: string, username: string, hashedPassword
     [email, username, hashedPassword]
   );
   return result.rows[0];
+};
+
+
+// CLip Models
+export const fetchClipsByUserId = async (userId: number) => {
+  const result = await db.query('SELECT * FROM clips WHERE user_id = $1', [userId]);
+  return result.rows;
 };

@@ -13,7 +13,9 @@ export const login = async (req, res, next) => {
 */
 
 import { Request, Response, NextFunction } from 'express';
-import { loginUser, registerUser } from './oktzy.service.js';
+import { loginUser, registerUser, getUserClips } from './oktzy.service.js';
+
+// Auth Controllers
 
 export const login = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -39,6 +41,18 @@ export const logout = async (res: Response, next: NextFunction) => {
   try {
     res.clearCookie('oktzy_session');
     res.json({ success: true, message: 'Logged out successfully' });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// Clip Controllers
+
+export const fetchClips = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const userId = req.user?.id;
+    const clips = await getUserClips(Number(userId)); // Call service
+    res.json({ success: true, data: clips });
   } catch (error) {
     next(error);
   }

@@ -14,8 +14,10 @@ export const loginUser = async (email, password) => {
 */
 
 import bcrypt from 'bcrypt';
-import { findUserByEmail, createUser } from './oktzy.model.js';
+import { findUserByEmail, createUser, fetchClipsByUserId } from './oktzy.model.js';
 
+
+// Auth Services
 export const loginUser = async (email: string, password: string) => {
   try {
     const user = await findUserByEmail(email); // Call model
@@ -45,3 +47,14 @@ export const registerUser = async (email: string, username: string, password: st
     throw error;
   }
 }
+
+// Clip Services
+export const getUserClips = async (userId: number) => {
+  try {
+    const clips = await fetchClipsByUserId(userId); // Call model
+    return clips;
+  } catch (error) {
+    throw error;
+  }
+}
+
