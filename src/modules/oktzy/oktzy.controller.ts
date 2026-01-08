@@ -34,3 +34,12 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
     next(error);
   }
 }
+
+export const logout = async (res: Response, next: NextFunction) => {
+  try {
+    res.clearCookie('oktzy_session');
+    res.json({ success: true, message: 'Logged out successfully' });
+  } catch (error) {
+    next(error);
+  }
+};
