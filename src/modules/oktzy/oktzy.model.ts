@@ -1,16 +1,9 @@
-// Models handle all database interactions. They're the only layer that talks to your database.
-/* 
-EXAMPLE:
-export const findUserByEmail = async (email) => {
-  const result = await db.query('SELECT * FROM users WHERE email = ?', [email]);
-  return result[0];
-}; 
-*/
+// Model layer for Oktzy module (handling database interactions)
 
 import db from '../../db/oktzy/db.js';
 
 
-// Auth models
+// AUTH MODELS
 export const findUserByEmail = async (email: string) => {
   const result = await db.query('SELECT * FROM users WHERE email = $1', [email]);
   return result.rows[0];
@@ -25,7 +18,7 @@ export const createUser = async (email: string, username: string, hashedPassword
 };
 
 
-// CLip Models
+// CLIP MODELS
 export const fetchClipsByUserId = async (userId: number) => {
   const result = await db.query('SELECT * FROM clips WHERE user_id = $1', [userId]);
   return result.rows;

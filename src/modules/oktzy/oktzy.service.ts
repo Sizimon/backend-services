@@ -1,23 +1,9 @@
-// Services contain all your business rules and orchestrate operations. This is where the "what" happens.
-/*
-EXAMPLE:
-export const loginUser = async (email, password) => {
-  const user = await findUserByEmail(email); // Call model
-  if (!user) throw new Error('Invalid credentials');
-  
-  const isValid = await bcrypt.compare(password, user.password); // Business logic
-  if (!isValid) throw new Error('Invalid credentials');
-  
-  const token = generateToken(user.id); // Business logic
-  return { user, token };
-};
-*/
-
+// Service layer for Oktzy (handling main logic between controllers and models)
 import bcrypt from 'bcrypt';
 import { findUserByEmail, createUser, fetchClipsByUserId } from './oktzy.model.js';
 
 
-// Auth Services
+// AUTH SERVICES
 export const loginUser = async (email: string, password: string) => {
   try {
     const user = await findUserByEmail(email); // Call model
@@ -48,7 +34,7 @@ export const registerUser = async (email: string, username: string, password: st
   }
 }
 
-// Clip Services
+// CLIP SERVICES
 export const getUserClips = async (userId: number) => {
   try {
     const clips = await fetchClipsByUserId(userId); // Call model
