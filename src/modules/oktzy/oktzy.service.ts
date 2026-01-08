@@ -16,6 +16,22 @@ export const loginUser = async (email, password) => {
 import bcrypt from 'bcrypt';
 import { findUserByEmail, createUser } from './oktzy.model.js';
 
+export const loginUser = async (email: string, password: string) => {
+  try {
+    const user = await findUserByEmail(email); // Call model
+    if (!user) {
+      throw new Error('Invalid credentials');
+    }
+    const isValid = await bcrypt.compare(password, user.password); // Business logic
+    if (!isValid) {
+      throw new Error('Invalid credentials');
+    }
+    return user;
+  } catch (error) {
+    throw error;
+  }
+}
+
 export const registerUser = async (email: string, username: string, password: string) => {
   try {
     const existingUser = await findUserByEmail(email); // Call model

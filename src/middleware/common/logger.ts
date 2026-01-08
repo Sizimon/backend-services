@@ -18,6 +18,12 @@ const colors = {
   redirect: '\x1b[36m', // Cyan (3xx)
   clientError: '\x1b[33m', // Yellow (4xx)
   serverError: '\x1b[31m', // Red (5xx)
+  
+  // Log level colors
+  INFO: '\x1b[36m',    // Cyan
+  WARN: '\x1b[33m',    // Yellow
+  ERROR: '\x1b[31m',   // Red
+  DEBUG: '\x1b[35m',   // Magenta
 };
 
 const getStatusColor = (status: number): string => {
@@ -74,43 +80,37 @@ export const logger = (req: Request, res: Response, next: NextFunction): void =>
   next();
 };
 
-// Advanced logger with different log levels
-export class Logger {
-  private static log(level: 'INFO' | 'WARN' | 'ERROR' | 'DEBUG', message: string, meta?: any): void {
-    const timestamp = new Date().toISOString();
-    const color = {
-      INFO: '\x1b[36m',    // Cyan
-      WARN: '\x1b[33m',    // Yellow
-      ERROR: '\x1b[31m',   // Red
-      DEBUG: '\x1b[35m',   // Magenta
-    }[level];
-    
-    console.log(
-      `${colors.dim}[${timestamp}]${colors.reset} ` +
-      `${color}[${level}]${colors.reset} ` +
-      `${message}`
-    );
-    
-    if (meta) {
-      console.log(JSON.stringify(meta, null, 2));
-    }
-  }
+// Helper function for logging with levels
+const log = (level: 'INFO' | 'WARN' | 'ERROR' | 'DEBUG', message: string, meta?: any): void => {
+  const timestamp = new Date().toISOString();
+  const color = colors[level];
   
-  static info(message: string, meta?: any): void {
-    this.log('INFO', message, meta);
-  }
+  console.log(
+    `${colors.dim}[${timestamp}]${colors.reset} ` +
+    `${color}[${level}]${colors.reset} ` +
+    `${message}`
+  );
   
-  static warn(message: string, meta?: any): void {
-    this.log('WARN', message, meta);
+  if (meta) {
+    console.log(JSON.stringify(meta, null, 2));
   }
-  
-  static error(message: string, meta?: any): void {
-    this.log('ERROR', message, meta);
+};
+
+// Exported logger functions
+export const logInfo = (message: string, meta?: any): void => {
+  log('INFO', message, meta);
+};
+
+export const logWarn = (message: string, meta?: any): void => {
+  log('WARN', message, meta);
+};
+
+export const logError = (message: string, meta?: any): void => {
+  log('ERROR', message, meta);
+};
+
+export const logDebug = (message: string, meta?: any): void => {
+  if (process.env.NODE_ENV !== 'production') {
+    log('DEBUG', message, meta);
   }
-  
-  static debug(message: string, meta?: any): void {
-    if (process.env.NODE_ENV !== 'production') {
-      this.log('DEBUG', message, meta);
-    }
-  }
-}
+};
