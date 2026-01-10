@@ -50,7 +50,7 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
   }
 }
 
-export const logout = async (req: Request, res: Response, next: NextFunction) => {
+export const logout = async (_req: Request, res: Response, next: NextFunction) => {
   try {
     clearSessionCookie(res);
     res.json({ success: true, message: 'Logged out successfully' });

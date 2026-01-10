@@ -5,7 +5,7 @@ type Config = {
 }
 
 export const config: Config = {
-    port: 3000,
+    port: 5050,
     host: 'localhost',
-    dbUrl: 'mongodb://localhost:27017/myapp' // change later ALL
+    dbUrl: process.env.DATABASE_URL || ''
 }
