@@ -9,9 +9,9 @@ const router = Router();
 
 
 // AUTH ROUTES
-router.post('/login', oktzyAuthRateLimiter, login);
-router.post('/register', oktzyAuthRateLimiter, register);
-router.post('/logout', oktzyAuthRateLimiter, logout);
+router.post('/auth/login', oktzyAuthRateLimiter, login);
+router.post('/auth/register', oktzyAuthRateLimiter, register);
+router.post('/auth/logout', oktzyAuthRateLimiter, logout);
 
 
 // CLIP ROUTES
