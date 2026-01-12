@@ -7,6 +7,8 @@ import cors from 'cors';
 
 const app = express();
 
+app.set('trust proxy', 1);
+
 // Cors configuration to allow all subdomains of head domain.
 app.use(cors({
     origin: function(origin, callback) {
