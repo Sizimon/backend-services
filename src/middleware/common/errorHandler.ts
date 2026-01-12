@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response } from 'express';
 import { logError, logWarn } from './logger.js';
 
 // Custom error type
@@ -16,7 +16,7 @@ export const createError = (message: string, statusCode: number): AppError => {
 };
 
 // Not found error handler
-export const notFoundHandler = (req: Request, res: Response, next: NextFunction) => {
+export const notFoundHandler = (req: Request, res: Response) => {
     logWarn(`Route not found: ${req.method} ${req.path}`, {
         ip: req.ip || req.socket.remoteAddress,
         userAgent: req.get('user-agent')
