@@ -34,7 +34,6 @@ export const errorHandler = (
     err: AppError,
     req: Request,
     res: Response,
-    _next: NextFunction
 ) => {
     // Default error
     let statusCode = err.statusCode || 500;
