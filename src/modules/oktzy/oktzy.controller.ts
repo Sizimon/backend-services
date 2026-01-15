@@ -15,14 +15,6 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
       email: user.email,
       username: user.username,
     });
-    res.json({
-      success: true,
-      data: {
-        id: user.id,
-        email: user.email,
-        username: user.username,
-      }
-    });
   } catch (error) {
     next(error);
   }
@@ -37,14 +29,6 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
       email: user.email,
       username: user.username,
     });
-    res.json({
-      success: true,
-      data: {
-        id: user.id,
-        email: user.email,
-        username: user.username,
-      }
-    }); // Send response
   } catch (error) {
     next(error);
   }

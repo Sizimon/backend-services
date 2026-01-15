@@ -73,7 +73,7 @@ export const setSessionCookie = (
     secure: process.env.NODE_ENV === 'production', // HTTPS only in production
     sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', // CSRF protection, 'none' for cross-origin
     maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days in milliseconds
-    path: '/',
+    path: '/api/oktzy', // Cookie valid for Oktzy API routes
   });
 
   return token;
@@ -85,6 +85,6 @@ export const clearSessionCookie = (res: Response): void => {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
-    path: '/',
+    path: '/api/oktzy',
   });
 };
