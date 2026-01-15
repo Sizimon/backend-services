@@ -34,6 +34,8 @@ export const registerUser = async (email: string, username: string, password: st
   }
 }
 
+
+
 // CLIP SERVICES
 export const getUserClips = async (userId: number) => {
   try {
