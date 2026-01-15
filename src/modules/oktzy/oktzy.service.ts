@@ -1,6 +1,6 @@
 // Service layer for Oktzy (handling main logic between controllers and models)
 import bcrypt from 'bcrypt';
-import { findUserByEmail, createUser, fetchClipsByUserId } from './oktzy.model.js';
+import { findUserByEmail, createUser, fetchClipsByUserId, findUserById } from './oktzy.model.js';
 
 
 // AUTH SERVICES
@@ -34,7 +34,17 @@ export const registerUser = async (email: string, username: string, password: st
   }
 }
 
-
+export const getUserById = async (userId: number) => {
+  try {
+    const user = await findUserById(userId); // Call model
+    if (!user) {
+      throw new Error('User not found');
+    }
+    return user;
+  } catch (error) {
+    throw error;
+  }
+};
 
 // CLIP SERVICES
 export const getUserClips = async (userId: number) => {
