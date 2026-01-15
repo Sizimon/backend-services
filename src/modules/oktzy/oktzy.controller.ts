@@ -1,7 +1,7 @@
 // Control layer for Oktzy (handling HTTP requests and responses)
 
 import { Request, Response, NextFunction } from 'express';
-import { loginUser, registerUser, getUserClips } from './oktzy.service.js';
+import { loginUser, registerUser, getUserClips, getUserById } from './oktzy.service.js';
 import { setSessionCookie, clearSessionCookie } from '../../middleware/oktzy/oktzyAuth.js';
 
 // AUTH CONTROLLERS
@@ -54,6 +54,17 @@ export const logout = async (_req: Request, res: Response, next: NextFunction) =
   try {
     clearSessionCookie(res);
     res.json({ success: true, message: 'Logged out successfully' });
+  } catch (error) {
+    next(error);
+  }
+};
+
+
+export const me = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const userId = req.user?.id;
+    const user = await getUserById(Number(userId)); // Call service
+    res.json({ success: true, data: user });
   } catch (error) {
     next(error);
   }

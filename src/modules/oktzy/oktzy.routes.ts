@@ -1,7 +1,7 @@
 //Route layer for Oktzy module (defining API endpoints)
 
 import { Router } from 'express';
-import { login, logout, register, fetchClips } from './oktzy.controller.js';
+import { login, logout, register, fetchClips, me } from './oktzy.controller.js';
 import { oktzyAuthRateLimiter, oktzyRateLimiter } from '../../middleware/oktzy/oktzyRateLimiter.js';
 import { oktzyAuth } from '../../middleware/oktzy/oktzyAuth.js';
 
@@ -12,6 +12,7 @@ const router = Router();
 router.post('/auth/login', oktzyAuthRateLimiter, login);
 router.post('/auth/register', oktzyAuthRateLimiter, register);
 router.post('/auth/logout', oktzyAuthRateLimiter, logout);
+router.get('/auth/me', oktzyAuth, oktzyRateLimiter, me);
 
 
 // CLIP ROUTES
