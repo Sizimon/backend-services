@@ -64,7 +64,14 @@ export const me = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const userId = req.user?.id;
     const user = await getUserById(Number(userId)); // Call service
-    res.json({ success: true, data: user });
+    res.json({
+      success: true,
+      user: {
+        id: user.id,
+        email: user.email,
+        username: user.username,
+      }
+    });
   } catch (error) {
     next(error);
   }
