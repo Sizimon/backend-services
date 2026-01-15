@@ -22,7 +22,6 @@ export const createUser = async (email: string, username: string, hashedPassword
   return result.rows[0];
 };
 
-
 // CLIP MODELS
 export const fetchClipsByUserId = async (userId: number) => {
   const result = await db.query('SELECT * FROM clips WHERE user_id = $1', [userId]);

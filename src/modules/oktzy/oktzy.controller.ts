@@ -15,6 +15,7 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
       email: user.email,
       username: user.username,
     });
+    res.status(200).json({ message: 'Login successful' });
   } catch (error) {
     next(error);
   }
@@ -29,6 +30,7 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
       email: user.email,
       username: user.username,
     });
+    res.status(201).json({ message: 'User registered successfully' });
   } catch (error) {
     next(error);
   }
@@ -48,6 +50,11 @@ export const me = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const userId = req.user?.id;
     const user = await getUserById(Number(userId)); // Call service
+    if (!user) {
+      res.status(404).json({ error: 'User not found' });
+      return;
+    }
+    
     res.json({
       success: true,
       user: {
@@ -62,7 +69,6 @@ export const me = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 // CLIP CONTROLLERS
-
 export const fetchClips = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const userId = req.user?.id;
