@@ -10,7 +10,7 @@ export const loginUser = async (email: string, password: string) => {
     if (!user) {
       throw new Error('Invalid credentials');
     }
-    const isValid = await bcrypt.compare(password, user.password); // Business logic
+    const isValid = await bcrypt.compare(password, user.password_hash); // Business logic
     if (!isValid) {
       throw new Error('Invalid credentials');
     }
