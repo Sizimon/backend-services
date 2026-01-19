@@ -16,8 +16,8 @@ export const findUserById = async (id: number) => {
 
 export const createUser = async (email: string, username: string, hashedPassword: string) => {
   const result = await db.query(
-    'INSERT INTO users (email, username, password_hash) VALUES ($1, $2, $3) RETURNING *',
-    [email, username, hashedPassword]
+    'INSERT INTO users (username, email, password_hash) VALUES ($1, $2, $3) RETURNING *',
+    [username, email, hashedPassword]
   );
   return result.rows[0];
 };
