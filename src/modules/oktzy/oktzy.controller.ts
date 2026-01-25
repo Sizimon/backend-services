@@ -1,7 +1,7 @@
 // Control layer for Oktzy (handling HTTP requests and responses)
 
 import { Request, Response, NextFunction } from 'express';
-import { loginUser, registerUser, getUserClips, getUserById } from './oktzy.service.js';
+import { loginUser, registerUser, getUserClips, getUserById, addClip, editClip, removeClip } from './oktzy.service.js';
 import { setSessionCookie, clearSessionCookie } from '../../middleware/oktzy/oktzyAuth.js';
 
 // AUTH CONTROLLERS
@@ -78,3 +78,38 @@ export const fetchClips = async (req: Request, res: Response, next: NextFunction
     next(error);
   }
 };
+
+export const createNewClip = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const userId = req.user?.id;
+    const { title, url, timestamps } = req.body;
+    const newClip = await addClip(Number(userId), title, url, timestamps); // Call service
+    res.status(201).json({ success: true, data: newClip });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const updateClipDetails = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const userId = req.user?.id;
+    const clipId = Number(req.params.clipId);
+    const { title, timestamps } = req.body;
+    const updatedClip = await editClip(Number(userId), clipId, title, timestamps);
+    res.json({ success: true, data: updatedClip });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const deleteClipById = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const userId = req.user?.id;
+    const clipId = Number(req.params.clipId);
+    const deletedClip = await removeClip(Number(userId), clipId);
+    res.json({ success: true, data: deletedClip });
+  } catch (error) {
+    next(error);
+  }
+}
+
